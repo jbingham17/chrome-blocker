@@ -31,13 +31,36 @@
       '.ytp-autonav-endscreen',
       '.ytp-autonav-endscreen-countdown-overlay',
       '.html5-endscreen',
+      '.ytp-videowall-still',
+      '.ytp-videowall-still-image',
+      '.ytp-suggestion-set',
+      '.ytp-suggestions',
+      '.ytp-ce-video',
+      '.ytp-ce-playlist',
+      '.ytp-ce-channel',
+      '.ytp-endscreen-paginate',
+      '.annotation',
+      '.video-annotations',
+      '.ytp-cards-teaser',
+      '.ytp-cards-button',
+      '.ytp-player-content.ytp-iv-player-content',
     ];
 
     endScreenSelectors.forEach(selector => {
       document.querySelectorAll(selector).forEach(el => {
         el.style.setProperty('display', 'none', 'important');
+        el.style.setProperty('visibility', 'hidden', 'important');
+        el.style.setProperty('opacity', '0', 'important');
+        el.style.setProperty('pointer-events', 'none', 'important');
         el.remove();
       });
+    });
+
+    // Also hide any element with endscreen-related attributes
+    document.querySelectorAll('[class*="endscreen"], [class*="videowall"], [class*="suggestion"]').forEach(el => {
+      if (el.closest('.ytp-player-content') || el.closest('.html5-video-player')) {
+        el.style.setProperty('display', 'none', 'important');
+      }
     });
   }
 

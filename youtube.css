@@ -39,6 +39,50 @@ ytd-compact-playlist-renderer {
   display: none !important;
 }
 
+/* Video wall that appears at end of video */
+.ytp-videowall-still,
+.ytp-videowall-still-image,
+.ytp-suggestion-set,
+.ytp-suggestions,
+.ytp-suggestions-bg,
+.ytp-suggestion-link,
+.ytp-suggestion-image,
+.ytp-suggestion-title,
+.ytp-suggestion-author,
+.ytp-suggestion-duration {
+  display: none !important;
+}
+
+/* End screen overlay and annotations */
+.ytp-endscreen-paginate,
+.annotation,
+.annotation-type-custom,
+.video-annotations,
+.ytp-cards-teaser,
+.ytp-cards-button,
+.ytp-ce-size-640,
+.ytp-ce-size-853,
+.ytp-ce-size-1280,
+.ytp-ce-large-round,
+.ytp-ce-small-round,
+.ytp-ce-medium-round,
+.ytp-ce-aspect-ratio-4-3,
+.ytp-ce-aspect-ratio-16-9 {
+  display: none !important;
+}
+
+/* Hide the entire endscreen layer */
+.ytp-player-content.ytp-endscreen-paginate,
+.ytp-player-content:has(.ytp-endscreen-content),
+.ytp-endscreen-previous,
+.ytp-endscreen-next,
+.html5-endscreen.ytp-player-content {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 /* ===== AUTOPLAY ===== */
 /* Autoplay toggle in the player */
 .ytp-autonav-toggle-button-container,
