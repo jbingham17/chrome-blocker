@@ -28,8 +28,12 @@ aside[data-ad-banner],
   display: none !important;
 }
 
-/* News module - often algorithmic */
-.news-module {
+/* LinkedIn News module */
+.news-module,
+[data-view-name="news-module"],
+#feed-news-module,
+[aria-label="LinkedIn News"],
+.scaffold-finite-scroll__content .news-module {
   display: none !important;
 }
 

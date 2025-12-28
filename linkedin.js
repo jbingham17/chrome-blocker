@@ -176,8 +176,12 @@
       '.ad-banner-container',
       '[data-ad-banner]',
       '.aside-widget--ad',
-      // News module (often algorithmic)
+      // News module (LinkedIn News)
       '.news-module',
+      '[data-view-name="news-module"]',
+      '#feed-news-module',
+      '.scaffold-finite-scroll__content .news-module',
+      '[aria-label="LinkedIn News"]',
       // People you may know
       '.mn-abi-form',
       '[data-view-name="pymk-module"]',
