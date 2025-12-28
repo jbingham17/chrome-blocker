@@ -31,8 +31,39 @@ a[href^="/direct"] {
   display: none !important;
 }
 
-/* Hide stories on home page */
+/* Hide stories on home page - aggressive selectors to prevent flash */
 div[aria-label*="Stories"],
-canvas[aria-label*="Stories"] {
+canvas[aria-label*="Stories"],
+/* Stories tray container - typically a horizontal scroll area at top of feed */
+main[role="main"] > div > div > div:first-child > div:first-child > div:first-child:has(canvas),
+main[role="main"] > div > div > section > main > div:first-child:has(canvas),
+/* Stories container identified by canvas elements (story ring avatars) */
+div:has(> div > div > canvas[height="66"]),
+div:has(> div > div > canvas[height="56"]),
+div:has(> ul > li canvas),
+/* Story viewer overlay */
+div[role="dialog"]:has(div[aria-label*="Story"]),
+div[role="presentation"]:has(div[aria-label*="Story"]),
+/* Block clicking through to stories */
+a[href^="/stories/"] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Make stories container take no space */
+section:has(canvas[height="66"]):first-of-type,
+section:has(canvas[height="56"]):first-of-type {
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Hide "Suggested for you" See All link */
+a[href="/explore/people/"] {
   display: none !important;
 }
+
+/* Note: "Suggested for you" sections and "You're all caught up" are hidden via JavaScript
+   for more reliable text-based matching */

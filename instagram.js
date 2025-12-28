@@ -4,20 +4,156 @@
 (function() {
   'use strict';
 
+  // Inject critical CSS immediately to hide stories and suggestions before render
+  const criticalCSS = document.createElement('style');
+  criticalCSS.textContent = `
+    /* Immediate stories blocking - injected at document_start */
+    div[aria-label*="Stories"],
+    canvas[aria-label*="Stories"],
+    a[href^="/stories/"],
+    div:has(> div > div > canvas[height="66"]),
+    div:has(> div > div > canvas[height="56"]),
+    div:has(> ul > li canvas) {
+      display: none !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+
+    /* Hide "Suggested for you" See All link */
+    a[href="/explore/people/"] {
+      display: none !important;
+    }
+  `;
+  (document.head || document.documentElement).appendChild(criticalCSS);
+
+  // Block navigation to /stories/ URLs
+  function blockStoriesNavigation() {
+    // Intercept clicks on story elements
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a[href^="/stories/"]');
+      if (link) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        return false;
+      }
+
+      // Also block clicks on canvas elements (story avatars)
+      const canvas = e.target.closest('canvas');
+      if (canvas && canvas.closest('div:not([role="dialog"])')) {
+        const container = canvas.closest('div');
+        if (container && !container.closest('article')) {
+          // Likely a story avatar, check for story link nearby
+          const parentLink = canvas.closest('a');
+          if (parentLink && parentLink.href && parentLink.href.includes('/stories/')) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            return false;
+          }
+        }
+      }
+    }, true); // Use capture phase to intercept before other handlers
+
+    // Block programmatic navigation to /stories/
+    const originalPushState = history.pushState;
+    history.pushState = function(...args) {
+      if (args[2] && typeof args[2] === 'string' && args[2].includes('/stories/')) {
+        console.log('[Blocker] Blocked navigation to stories');
+        return;
+      }
+      return originalPushState.apply(this, args);
+    };
+
+    const originalReplaceState = history.replaceState;
+    history.replaceState = function(...args) {
+      if (args[2] && typeof args[2] === 'string' && args[2].includes('/stories/')) {
+        console.log('[Blocker] Blocked navigation to stories');
+        return;
+      }
+      return originalReplaceState.apply(this, args);
+    };
+  }
+
+  // Run immediately
+  blockStoriesNavigation();
+
   // Selectors for elements to hide (only on home feed)
   const HIDE_SELECTORS = [
     // Feed posts
     'article',
-    // Stories
+    // Stories - comprehensive selectors
     'div[role="menu"]',
     '[aria-label*="Stories"]',
-    // Suggested users
+    'a[href^="/stories/"]',
+    'div:has(> div > div > canvas[height="66"])',
+    'div:has(> div > div > canvas[height="56"])',
+    // Suggested users sidebar
     'aside',
     // Reels nav link
     '[href*="/reels/"]',
     // Notification content
     '[aria-label="Notifications"] > div > div:not(:first-child)',
+    // Suggested for you link
+    'a[href="/explore/people/"]',
   ];
+
+  // Get direct text content (not from children)
+  function getDirectText(el) {
+    let text = '';
+    for (const node of el.childNodes) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        text += node.textContent;
+      }
+    }
+    return text.trim();
+  }
+
+  // Hide "Suggested for you" sections and "You're all caught up" by text content
+  function hideSuggestionsAndCaughtUp() {
+    // Find spans with exact "Suggested for you" text
+    document.querySelectorAll('span').forEach(el => {
+      const directText = getDirectText(el);
+      const fullText = el.textContent?.trim();
+
+      // Only match if this span directly contains the text (not inherited from children)
+      if (directText === 'Suggested for you' || directText === 'Suggestions for you' ||
+          (fullText === 'Suggested for you' && el.children.length === 0)) {
+        // Find the suggestions container - go up until we find a reasonable boundary
+        let container = el.parentElement;
+        for (let i = 0; i < 8; i++) {
+          if (container && container.parentElement) {
+            const parent = container.parentElement;
+            // Stop if we hit main structural elements
+            if (parent.tagName === 'MAIN' || parent.tagName === 'BODY' ||
+                parent.tagName === 'SECTION' || parent.getAttribute('role') === 'main') {
+              break;
+            }
+            container = parent;
+          }
+        }
+        if (container && container.tagName !== 'MAIN' && container.tagName !== 'BODY') {
+          container.style.setProperty('display', 'none', 'important');
+        }
+      }
+
+      // Hide "You're all caught up" message
+      if (directText === "You're all caught up" ||
+          (fullText === "You're all caught up" && el.children.length === 0)) {
+        let container = el.parentElement;
+        for (let i = 0; i < 5; i++) {
+          if (container?.parentElement &&
+              container.parentElement.tagName !== 'MAIN' &&
+              container.parentElement.tagName !== 'BODY') {
+            container = container.parentElement;
+          }
+        }
+        if (container && container.tagName !== 'MAIN' && container.tagName !== 'BODY') {
+          container.style.setProperty('display', 'none', 'important');
+        }
+      }
+    });
+  }
 
   // Selectors for elements to always keep visible
   const KEEP_SELECTORS = [
@@ -133,6 +269,8 @@
   // Run blocker
   function runBlocker() {
     hideElements();
+    // Always hide suggestions, even on profile pages
+    hideSuggestionsAndCaughtUp();
     if (isProfilePage()) {
       removeBlockedMessage();
     } else {
