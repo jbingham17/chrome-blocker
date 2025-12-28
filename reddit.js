@@ -9,6 +9,7 @@
   const WHITELISTED_SUBREDDITS = [
     'claudeai',
     'claudecode',
+    'claudexplorers',
     'cscareerquestions',
     'salesengineers',
   ];
