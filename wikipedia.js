@@ -137,7 +137,14 @@
   // Remove article links completely from DOM
   function removeArticleLinks() {
     // Don't remove links on disambiguation pages
-    if (isDisambiguationPage()) return;
+    if (isDisambiguationPage()) {
+      // Make sure CSS doesn't apply either
+      document.body?.classList.remove('wiki-links-disabled');
+      return;
+    }
+
+    // Add class so CSS also applies (backup for any links not yet processed)
+    document.body?.classList.add('wiki-links-disabled');
 
     // Find all links in article content
     document.querySelectorAll('a[href^="/wiki/"]').forEach(link => {
