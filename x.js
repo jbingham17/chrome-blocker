@@ -42,10 +42,30 @@
     });
   }
 
+  // Track the last URL to detect navigation
+  let lastUrl = window.location.href;
+
+  // Scroll to the top of the tweet on tweet pages
+  function scrollToTweet() {
+    // Small delay to let Twitter finish rendering
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 50);
+  }
+
   // Main blocker function
   function runBlocker() {
     markPageType();
     hideBottomBar();
+
+    // Check if we navigated to a new tweet page
+    const currentUrl = window.location.href;
+    if (currentUrl !== lastUrl) {
+      lastUrl = currentUrl;
+      if (isOnTweetPage()) {
+        scrollToTweet();
+      }
+    }
 
     // On tweet pages, don't hide anything else - let CSS handle visibility
     if (isOnTweetPage()) {
@@ -55,9 +75,17 @@
 
   // Initial run
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', runBlocker);
+    document.addEventListener('DOMContentLoaded', () => {
+      runBlocker();
+      if (isOnTweetPage()) {
+        scrollToTweet();
+      }
+    });
   } else {
     runBlocker();
+    if (isOnTweetPage()) {
+      scrollToTweet();
+    }
   }
 
   // Watch for dynamic content (X is a SPA)
