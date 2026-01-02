@@ -51,6 +51,12 @@
       "css": ["jetpunk.css"],
       "js": ["jetpunk.js"],
       "run_at": "document_start"
+    },
+    {
+      "matches": ["*://*.wikipedia.org/*", "*://wikipedia.org/*"],
+      "css": ["wikipedia.css"],
+      "js": ["wikipedia.js"],
+      "run_at": "document_start"
     }
   ]
 }

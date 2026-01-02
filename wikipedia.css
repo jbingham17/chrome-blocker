@@ -1,0 +1,73 @@
+/* Wikipedia Link Remover CSS */
+/* Additional CSS to ensure links in article content don't look or behave like links */
+
+/* Main article content links */
+#mw-content-text a[href^="/wiki/"]:not(.external):not(.extiw),
+#bodyContent a[href^="/wiki/"]:not(.external):not(.extiw),
+.mw-parser-output a[href^="/wiki/"]:not(.external):not(.extiw) {
+  color: inherit !important;
+  text-decoration: none !important;
+  cursor: text !important;
+  pointer-events: none !important;
+}
+
+/* Remove hover effects */
+#mw-content-text a[href^="/wiki/"]:not(.external):not(.extiw):hover,
+#bodyContent a[href^="/wiki/"]:not(.external):not(.extiw):hover,
+.mw-parser-output a[href^="/wiki/"]:not(.external):not(.extiw):hover {
+  color: inherit !important;
+  text-decoration: none !important;
+  background: none !important;
+}
+
+/* Infobox links */
+.infobox a[href^="/wiki/"]:not(.external) {
+  color: inherit !important;
+  text-decoration: none !important;
+  cursor: text !important;
+  pointer-events: none !important;
+}
+
+/* Category links */
+#catlinks a[href^="/wiki/Category:"] {
+  color: inherit !important;
+  text-decoration: none !important;
+  cursor: text !important;
+  pointer-events: none !important;
+}
+
+/* Hatnote links (disambiguation, etc.) */
+.hatnote a[href^="/wiki/"] {
+  color: inherit !important;
+  text-decoration: none !important;
+  cursor: text !important;
+  pointer-events: none !important;
+}
+
+/* Navbox links */
+.navbox a[href^="/wiki/"] {
+  color: inherit !important;
+  text-decoration: none !important;
+  cursor: text !important;
+  pointer-events: none !important;
+}
+
+/* Keep external links functional */
+a.external,
+a.extiw,
+#mw-panel a,
+#mw-head a,
+.mw-header a,
+#p-search a,
+#searchform a,
+#p-logo a,
+#p-navigation a,
+#footer a,
+#toc a,
+.toc a,
+#mw-panel-toc a,
+.mw-list-item a,
+#p-personal a {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
