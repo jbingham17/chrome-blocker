@@ -6,20 +6,41 @@
 
   // Check if current page is a disambiguation page
   function isDisambiguationPage() {
-    // Check URL for disambiguation suffix
-    if (window.location.pathname.includes('_(disambiguation)')) {
+    // Check URL for disambiguation suffix - this is reliable and available immediately
+    if (window.location.pathname.includes('_(disambiguation)') ||
+        window.location.pathname.includes('(disambiguation)') ||
+        window.location.href.includes('disambiguation')) {
       return true;
     }
-    // Check for disambiguation box/template
-    if (document.querySelector('.dmbox, .disambiguation, #disambigbox, .dmbox-disambig')) {
+    // Check page title
+    if (document.title && document.title.toLowerCase().includes('disambiguation')) {
+      return true;
+    }
+    // Check the h1 heading
+    const heading = document.querySelector('#firstHeading');
+    if (heading && heading.textContent.toLowerCase().includes('disambiguation')) {
+      return true;
+    }
+    // Check for disambiguation box/template (multiple selectors for different Wikipedia versions)
+    if (document.querySelector('.dmbox, .disambiguation, #disambigbox, .dmbox-disambig, .mbox-disambig, [role="note"].dmbox')) {
       return true;
     }
     // Check for disambiguation category
-    if (document.querySelector('#catlinks a[href*="Category:Disambiguation_pages"]')) {
+    if (document.querySelector('#catlinks a[href*="Disambiguation_pages"], #catlinks a[href*="disambiguation"]')) {
       return true;
     }
-    // Check for the "disambig" class on body (some skins use this)
+    // Check for short description containing disambiguation
+    const shortDesc = document.querySelector('.shortdescription');
+    if (shortDesc && shortDesc.textContent.toLowerCase().includes('disambiguation')) {
+      return true;
+    }
+    // Check for the "disambig" class on body
     if (document.body && document.body.classList.contains('disambig')) {
+      return true;
+    }
+    // Check for disambiguation hatnote at top of page
+    const hatnote = document.querySelector('.hatnote');
+    if (hatnote && hatnote.textContent.toLowerCase().includes('disambiguation')) {
       return true;
     }
     return false;
