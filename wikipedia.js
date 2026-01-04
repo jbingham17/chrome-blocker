@@ -7,41 +7,34 @@
   // Check if current page is a disambiguation page
   function isDisambiguationPage() {
     // Check URL for disambiguation suffix - this is reliable and available immediately
+    // Only check pathname to avoid matching query strings or anchors
     if (window.location.pathname.includes('_(disambiguation)') ||
-        window.location.pathname.includes('(disambiguation)') ||
-        window.location.href.includes('disambiguation')) {
-      return true;
-    }
-    // Check page title
-    if (document.title && document.title.toLowerCase().includes('disambiguation')) {
-      return true;
-    }
-    // Check the h1 heading
-    const heading = document.querySelector('#firstHeading');
-    if (heading && heading.textContent.toLowerCase().includes('disambiguation')) {
+        window.location.pathname.endsWith('(disambiguation)')) {
       return true;
     }
     // Check for disambiguation box/template (multiple selectors for different Wikipedia versions)
+    // This is the most reliable DOM-based check
     if (document.querySelector('.dmbox, .disambiguation, #disambigbox, .dmbox-disambig, .mbox-disambig, [role="note"].dmbox')) {
       return true;
     }
-    // Check for disambiguation category
-    if (document.querySelector('#catlinks a[href*="Disambiguation_pages"], #catlinks a[href*="disambiguation"]')) {
-      return true;
-    }
-    // Check for short description containing disambiguation
-    const shortDesc = document.querySelector('.shortdescription');
-    if (shortDesc && shortDesc.textContent.toLowerCase().includes('disambiguation')) {
+    // Check for disambiguation category in the page's categories
+    if (document.querySelector('#catlinks a[href*="Disambiguation_pages"]')) {
       return true;
     }
     // Check for the "disambig" class on body
     if (document.body && document.body.classList.contains('disambig')) {
       return true;
     }
-    // Check for disambiguation hatnote at top of page
-    const hatnote = document.querySelector('.hatnote');
-    if (hatnote && hatnote.textContent.toLowerCase().includes('disambiguation')) {
-      return true;
+    // Check for short description that indicates this IS a disambiguation page
+    // (not just linking to one)
+    const shortDesc = document.querySelector('.shortdescription');
+    if (shortDesc) {
+      const text = shortDesc.textContent.toLowerCase();
+      // Disambiguation pages have descriptions like "Topics referred to by the same term"
+      // or "Wikimedia disambiguation page"
+      if (text.includes('disambiguation page') || text.includes('topics referred to by the same term')) {
+        return true;
+      }
     }
     return false;
   }
