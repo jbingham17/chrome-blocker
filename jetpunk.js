@@ -1,8 +1,27 @@
 // JetPunk Full Blocker
-// Completely blocks access to jetpunk.com
+// Completely blocks access to jetpunk.com (with exceptions)
 
 (function() {
   'use strict';
+
+  // Allowed URLs (not blocked)
+  const allowedPaths = [
+    '/user-quizzes/1314339/bodies-of-water-on-the-world-map'
+  ];
+
+  // Check if current path is allowed
+  const currentPath = window.location.pathname;
+  if (allowedPaths.some(path => currentPath.startsWith(path))) {
+    // Remove the blocking CSS by injecting override styles
+    const style = document.createElement('style');
+    style.textContent = `
+      html, body { overflow: auto !important; }
+      body > * { display: revert !important; }
+      body::before { display: none !important; }
+    `;
+    (document.head || document.documentElement).appendChild(style);
+    return; // Don't block this page
+  }
 
   // Stop page load immediately
   window.stop();
