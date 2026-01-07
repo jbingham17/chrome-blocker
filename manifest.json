@@ -41,12 +41,6 @@
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.zerohedge.com/*", "*://zerohedge.com/*"],
-      "css": ["zerohedge.css"],
-      "js": ["zerohedge.js"],
-      "run_at": "document_start"
-    },
-    {
       "matches": ["*://*.jetpunk.com/*", "*://jetpunk.com/*"],
       "css": ["jetpunk.css"],
       "js": ["jetpunk.js"],
