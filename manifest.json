@@ -23,12 +23,6 @@
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.linkedin.com/*"],
-      "css": ["linkedin.css"],
-      "js": ["linkedin.js"],
-      "run_at": "document_start"
-    },
-    {
       "matches": ["*://*.youtube.com/*", "*://youtube.com/*"],
       "css": ["youtube.css"],
       "js": ["youtube.js"],
