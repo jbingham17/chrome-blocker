@@ -29,12 +29,6 @@
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.x.com/*", "*://x.com/*", "*://*.twitter.com/*", "*://twitter.com/*"],
-      "css": ["x.css"],
-      "js": ["x.js"],
-      "run_at": "document_start"
-    },
-    {
       "matches": ["*://*.jetpunk.com/*", "*://jetpunk.com/*"],
       "css": ["jetpunk.css"],
       "js": ["jetpunk.js"],
