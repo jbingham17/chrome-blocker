@@ -39,6 +39,12 @@
       "css": ["wikipedia.css"],
       "js": ["wikipedia.js"],
       "run_at": "document_start"
+    },
+    {
+      "matches": ["*://*.x.com/*", "*://x.com/*", "*://*.twitter.com/*", "*://twitter.com/*"],
+      "css": ["x.css"],
+      "js": ["x.js"],
+      "run_at": "document_start"
     }
   ]
 }

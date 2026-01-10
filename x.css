@@ -1,0 +1,31 @@
+/* X/Twitter Content Blocker - Hide right sidebar, show only Explore and Profile in nav */
+
+/* Hide the entire right sidebar column */
+[data-testid="sidebarColumn"] {
+  display: none !important;
+}
+
+/* Hide navigation items - keep only Explore and Profile */
+a[href="/home"],
+a[href="/i/connect_people"],
+a[href="/i/grok"],
+a[href$="/communities"],
+a[href="/notifications"],
+a[href="/messages"],
+a[href="/i/bookmarks"],
+a[href="/i/lists"],
+a[href$="/lists"],
+a[href="/i/premium_sign_up"],
+a[href="/i/verified-choose"],
+[data-testid="AppTabBar_Home_Link"],
+[data-testid="AppTabBar_Notifications_Link"],
+[data-testid="AppTabBar_DirectMessage_Link"],
+[data-testid="AppTabBar_Grok_Link"],
+[data-testid="AppTabBar_Communities_Link"],
+[data-testid="AppTabBar_More_Menu"],
+a[aria-label="Lists"],
+a[aria-label="Bookmarks"],
+a[aria-label="Premium"],
+a[data-testid="SideNav_NewTweet_Button"] {
+  display: none !important;
+}
