@@ -51,6 +51,12 @@
       "css": ["linkedin.css"],
       "js": ["linkedin.js"],
       "run_at": "document_start"
+    },
+    {
+      "matches": ["*://news.smol.ai/*"],
+      "css": ["smolai.css"],
+      "js": ["smolai.js"],
+      "run_at": "document_start"
     }
   ]
 }

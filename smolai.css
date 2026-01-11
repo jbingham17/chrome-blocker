@@ -1,0 +1,30 @@
+/* Smol AI News - Hide Discord sections on issue pages */
+
+/* Hide Discord-related headings and content */
+#ai-discord-recap,
+#ai-discord-recap ~ *,
+#discord-high-level-discord-summaries,
+#discord-high-level-discord-summaries ~ *,
+#discord-detailed-by-channel-summaries-and-links,
+#discord-detailed-by-channel-summaries-and-links ~ * {
+  display: none !important;
+}
+
+/* Hide Discord TOC links - main sections */
+a[href="#ai-discord-recap"],
+a[href="#discord-high-level-discord-summaries"],
+a[href="#discord-detailed-by-channel-summaries-and-links"],
+a[href*="-discord"],
+a[href*="discord-"] {
+  display: none !important;
+}
+
+/* Hide Discord channel TOC links (sub-channels with message counts) */
+a[href*="--general"],
+a[href*="--off-topic"],
+a[href*="--jailbreaking"],
+a[href*="--redteaming"],
+a[href*="--introduce"],
+a[href*="-messages"] {
+  display: none !important;
+}
