@@ -1,8 +1,62 @@
 // Wikipedia Link Remover
 // Removes clickable links to other articles while preserving search functionality
+// Also blocks the homepage to prevent distraction
 
 (function() {
   'use strict';
+
+  // Check if current page is the homepage/main page
+  function isHomePage() {
+    const path = window.location.pathname.toLowerCase();
+    const host = window.location.hostname.toLowerCase();
+
+    // Main Wikipedia portal (www.wikipedia.org)
+    if (host === 'www.wikipedia.org' || host === 'wikipedia.org') {
+      return true;
+    }
+
+    // Language-specific main pages (e.g., en.wikipedia.org/wiki/Main_Page)
+    if (path === '/' || path === '' || path === '/wiki/Main_Page' || path === '/wiki/main_page') {
+      return true;
+    }
+
+    return false;
+  }
+
+  // Block homepage completely
+  function blockHomePage() {
+    if (!isHomePage()) return false;
+
+    const style = document.createElement('style');
+    style.textContent = `
+      body > * {
+        display: none !important;
+      }
+      body::before {
+        content: "Wikipedia homepage is blocked";
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #f8f9fa;
+        color: #54595d;
+        font-size: 24px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        z-index: 999999;
+      }
+    `;
+    (document.head || document.documentElement).appendChild(style);
+    return true;
+  }
+
+  // Block homepage immediately if applicable
+  if (blockHomePage()) {
+    return; // Exit early, no need for link removal on blocked page
+  }
 
   // Check if current page is a disambiguation page
   function isDisambiguationPage() {
