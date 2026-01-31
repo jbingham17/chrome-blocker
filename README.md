@@ -42,6 +42,12 @@ A Chrome extension that blocks distracting content on social media sites while k
 - Completely blocks the entire site
 - Configurable exceptions in `jetpunk.js` (one quiz currently allowed)
 
+### ZeroHedge
+- Completely blocks the entire site
+
+### Chess.com
+- Completely blocks the entire site
+
 ### smol.ai
 - Hides Discord recap sections
 
