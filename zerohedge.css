@@ -1,0 +1,4 @@
+/* ZeroHedge Blocker - CSS backup */
+body > * {
+  display: none !important;
+}
