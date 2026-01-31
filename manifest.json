@@ -69,6 +69,12 @@
       "css": ["zerohedge.css"],
       "js": ["zerohedge.js"],
       "run_at": "document_start"
+    },
+    {
+      "matches": ["*://*.chess.com/*", "*://chess.com/*"],
+      "css": ["chess.css"],
+      "js": ["chess.js"],
+      "run_at": "document_start"
     }
   ]
 }

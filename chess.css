@@ -1,0 +1,4 @@
+/* Chess.com Blocker - CSS backup */
+body > * {
+  display: none !important;
+}
