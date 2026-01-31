@@ -11,8 +11,7 @@
     'claudecode',
     'claudexplorers',
     'cscareerquestions',
-    'salesengineers',
-    'k12sysadmin'
+    'salesengineers'
   ];
 
   // Normalize subreddit names for comparison
