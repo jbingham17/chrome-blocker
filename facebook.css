@@ -1,0 +1,4 @@
+/* Facebook Blocker - CSS backup */
+body > * {
+  display: none !important;
+}

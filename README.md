@@ -48,6 +48,9 @@ A Chrome extension that blocks distracting content on social media sites while k
 ### Chess.com
 - Completely blocks the entire site
 
+### Facebook
+- Completely blocks the entire site
+
 ### smol.ai
 - Hides Discord recap sections
 

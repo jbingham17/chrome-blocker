@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "SigNile",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Blocks distracting content on social media sites while keeping essential features",
   "icons": {
     "16": "icons/icon16.png",
@@ -74,6 +74,12 @@
       "matches": ["*://*.chess.com/*", "*://chess.com/*"],
       "css": ["chess.css"],
       "js": ["chess.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["*://*.facebook.com/*", "*://facebook.com/*"],
+      "css": ["facebook.css"],
+      "js": ["facebook.js"],
       "run_at": "document_start"
     }
   ]
