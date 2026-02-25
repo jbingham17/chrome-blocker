@@ -39,7 +39,7 @@ A Chrome extension that blocks distracting content on social media sites while k
 - Disambiguation pages keep links functional
 
 ### JetPunk
-- Completely blocks the entire site
+- Completely blocks the entire site except my personal site
 - Configurable exceptions in `jetpunk.js` (one quiz currently allowed)
 
 ### ZeroHedge
