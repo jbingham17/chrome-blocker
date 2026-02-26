@@ -5,7 +5,7 @@ A Chrome extension that blocks distracting content on social media sites while k
 ## Supported Sites
 
 ### Instagram
-- Blocks the main feed, stories, reels, and DMs
+- Blocks main feed, stories, reels, and DMs
 - Allows access to search and user profiles
 
 ### YouTube
