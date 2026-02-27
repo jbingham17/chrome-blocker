@@ -43,15 +43,12 @@
 
   // Hide feed content
   function hideContent() {
-    if (!isBlockedPage()) return;
-
     hideSelectors.forEach(selector => {
       document.querySelectorAll(selector).forEach(el => {
         el.style.setProperty('display', 'none', 'important');
       });
     });
 
-    // Also hide all elements inside main
     document.querySelectorAll('main').forEach(main => {
       main.style.setProperty('display', 'none', 'important');
     });
@@ -72,11 +69,6 @@
 
   // Create and show blocked message
   function showBlockedMessage() {
-    if (!isBlockedPage()) {
-      removeBlockedMessage();
-      return;
-    }
-
     if (document.getElementById('linkedin-blocker-message')) return;
 
     const message = document.createElement('div');
@@ -119,16 +111,45 @@
     }
   }
 
+  // Track current blocking state to avoid unnecessary DOM thrashing
+  let currentlyBlocking = false;
+
   // Main blocker function
   function runBlocker() {
     if (isBlockedPage()) {
+      currentlyBlocking = true;
       hideContent();
       showBlockedMessage();
-    } else {
+    } else if (currentlyBlocking) {
+      // Only unblock once per navigation to avoid repeated DOM work
+      currentlyBlocking = false;
       showContent();
       removeBlockedMessage();
     }
   }
+
+  // Handle navigation events (LinkedIn SPA uses pushState/replaceState)
+  function onNavigate() {
+    // Run immediately and again after a short delay to catch late DOM updates
+    runBlocker();
+    setTimeout(runBlocker, 150);
+  }
+
+  // Intercept pushState and replaceState to detect SPA navigation immediately
+  const originalPushState = history.pushState;
+  const originalReplaceState = history.replaceState;
+
+  history.pushState = function() {
+    originalPushState.apply(this, arguments);
+    onNavigate();
+  };
+
+  history.replaceState = function() {
+    originalReplaceState.apply(this, arguments);
+    onNavigate();
+  };
+
+  window.addEventListener('popstate', onNavigate);
 
   // Initial run
   if (document.readyState === 'loading') {
@@ -137,12 +158,13 @@
     runBlocker();
   }
 
-  // Watch for dynamic content (LinkedIn is a SPA)
+  // Watch for dynamic content on blocked pages only (to catch lazy-loaded feed items)
   const observer = new MutationObserver(() => {
-    runBlocker();
+    if (currentlyBlocking) {
+      hideContent();
+    }
   });
 
-  // Start observing when body is available
   function startObserver() {
     if (document.body) {
       observer.observe(document.body, {
@@ -155,15 +177,5 @@
   }
 
   startObserver();
-
-  // Also run on navigation (SPA navigation)
-  let lastUrl = location.href;
-  new MutationObserver(() => {
-    const url = location.href;
-    if (url !== lastUrl) {
-      lastUrl = url;
-      setTimeout(runBlocker, 100);
-    }
-  }).observe(document, { subtree: true, childList: true });
 
 })();
