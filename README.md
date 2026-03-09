@@ -1,4 +1,4 @@
-# Chrome-Blocker
+# Chrome Blocker
 
 A Chrome extension that blocks distracting content on social media sites while keeping essential features accessible.
 
