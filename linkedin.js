@@ -21,10 +21,10 @@
     overlay.id = BLOCKER_ID;
     overlay.style.cssText = `
       position: fixed;
-      top: 0;
+      top: 52px;
       left: 0;
       width: 100vw;
-      height: 100vh;
+      height: calc(100vh - 52px);
       background: #f3f2ef;
       z-index: 99999;
       display: flex;
